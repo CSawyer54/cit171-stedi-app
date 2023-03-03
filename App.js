@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
+
 const AppStack = createNativeStackNavigator();
 const loggedInStates={
   NOT_LOGGED_IN:'NOT_LOGGED_IN',
@@ -26,7 +27,7 @@ const App = () =>{
 
   useEffect(()=>{//this is code that has to run before we show app screen
    const getSessionToken = async()=>{
-    const sessionToken = null;//await AsyncStorage.getItem('sessionToken');
+    const sessionToken = await AsyncStorage.getItem('sessionToken');
     console.log('sessionToken',sessionToken);
     const validateResponse = await fetch('https://dev.stedi.me/validate/'+sessionToken,
     {
@@ -52,7 +53,7 @@ return(
  
 );
   }else if(loggedInState==loggedInStates.LOGGED_IN){
-    return <Navigation/>
+    return <Navigation setLoggedInState={setLoggedInState}/>
   } else if(loggedInState==loggedInStates.NOT_LOGGED_IN){
     return (
       <View>
@@ -159,5 +160,8 @@ return(
      title:{
       textAlign:"center",
       marginTop:50,
+      fontSize: 19,
+      color:'#A0CE4E',
+      fontWeight:'bold',
      }
  });
